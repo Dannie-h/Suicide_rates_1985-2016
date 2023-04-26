@@ -33,5 +33,5 @@ By analyzing suicide rates over time and identifying trends and patterns in the 
 
   #### 4. Data visualization
  
- ![total suicides](total suicides.png)
+
 
