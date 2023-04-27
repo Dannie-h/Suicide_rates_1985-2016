@@ -8,22 +8,26 @@
 #### 2. How many suicides/ gender?
   
   ```SQL
-  SELECT sex, 
-	SUM(suicides_no) AS total_suicides_gender
-FROM suicide_rates
-GROUP BY sex
-ORDER BY total_suicides_gender DESC;
+  SELECT g.gender, 
+	SUM(s.suicides_no) AS total_suicides
+FROM suicide_rates s
+INNER JOIN gender g
+	ON s.gender_id = g.gender_id
+GROUP BY g.gender
+ORDER BY total_suicides DESC;
 ```
 
-![totalsuicidesgender](Queries_results/totalsuicidesgender.jpg)
+![totalgender](Queries_results/totalgender.jpg)
  
 #### 3. How many suicides by age group?
  
- ```SQL
- SELECT age_group, 
-	SUM(suicides_no) AS total_suicides_age 
-FROM suicide_rates
-GROUP BY age_group
+```SQL
+SELECT  a.age_group, 
+	SUM(s.suicides_no) AS total_suicides_age 
+FROM suicide_rates s
+INNER JOIN age_groups a
+	ON s.age_group_id = a.age_group_id
+GROUP BY a.age_group
 ORDER BY total_suicides_age DESC;
 ```
 ![totalsuicidesage](Queries_results/totalsuicidesage.jpg)
@@ -31,10 +35,15 @@ ORDER BY total_suicides_age DESC;
 #### 4. How many suicides by gender and age group?
 
  ```SQL
- SELECT sex, age_group, 
-	SUM(suicides_no) AS total_suicides 
-FROM suicide_rates
-GROUP BY sex, age_group
+ SELECT g.gender, 
+	a.age_group, 
+	SUM(s.suicides_no) AS total_suicides 
+FROM suicide_rates s
+INNER JOIN gender g
+	ON g.gender_id = s.gender_id
+INNER JOIN age_groups a
+	ON a.age_group_id = s.age_group_id
+GROUP BY g.gender, a.age_group
 ORDER BY total_suicides DESC;
 ```
 ![totalsuicidesgenderage](Queries_results/totalsuicidesgenderage.jpg)
@@ -83,10 +92,12 @@ FROM suicide_rates;
 #### 8. On average, how many suicides/100k pop happened during this period for each gender?
 
 ```SQL
-SELECT sex, 
-	ROUND(AVG(suicides_per_100k),2) AS avg_suicides_per_100k 
-FROM suicide_rates
-GROUP BY sex
+SELECT g.gender, 
+	ROUND(AVG(s.suicides_per_100k),2) AS avg_suicides_per_100k 
+FROM suicide_rates s
+INNER JOIN gender g
+	ON g.gender_id = s.gender_id
+GROUP BY g.gender
 ORDER BY avg_suicides_per_100k DESC;
 ```
 ![avg100kgender](Queries_results/avg100kgender.jpg)
@@ -163,111 +174,53 @@ HAVING SUM(s.suicides_no) = (
 ```
 ![topcountryyear](Queries_results/topcountryyear.jpg)
 
-#### 13. Men from which country had the highest number of suicides?
-
-```SQL
-SELECT s.sex, c.country, SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
-INNER JOIN countries c
-ON s.country_id = c.country_id
-WHERE s.sex = 'male'
-GROUP BY s.sex, c.country, s.age_group
-ORDER BY total_suicides DESC
-LIMIT 1;
-```
-![mencountry](Queries_results/mencountry.jpg)
-
-#### 14. Women from which country had the highest number of suicides?
-
-```SQL
-SELECT s.sex, 
-       c.country, 
-       SUM (s.suicides_no) AS total_suicides 
-FROM suicide_rates s
-INNER JOIN countries c
-	ON s.country_id = c.country_id
-WHERE s.sex = 'female'
-GROUP BY s.sex, 	
-	c.country, 
-	s.age_group
-ORDER BY total_suicides DESC
-LIMIT 1;
-```
-![womencountry](Queries_results/womencountry.jpg)
-
-#### 15. When it comes to men who committed suicide, what was the age group and country for those who comitted the highest number of suicides?
-
-```SQL
-SELECT  s.sex, 
-        c.country, 
-	s.age_group, 
-	SUM (s.suicides_no) AS total_suicides 
-FROM suicide_rates s
-INNER JOIN countries c
-	ON s.country_id = c.country_id
-WHERE s.sex = 'male'
-GROUP BY s.sex, 
-	 c.country, 
-	 s.age_group
-ORDER BY total_suicides DESC
-LIMIT 1;
-```
-![menagecountry](Queries_results/menagecountry.jpg)
-
-#### 16. When it comes to women who committed suicide, what was the age group and country for those who comitted the highest number of suicides?
-```SQL
-SELECT  s.sex,
-	c.country, 
-	s.age_group, 
-	SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
-INNER JOIN countries c
-	ON s.country_id = c.country_id
-WHERE s.sex = 'female'
-GROUP BY s.sex, 
-	 c.country, 
-	 s.age_group
-ORDER BY total_suicides DESC
-LIMIT 1;
-```
-![womenagecountry](Queries_results/womenagecountry.jpg)
  
- #### 17. What gender from what age group from which country in what year comitted the highest number of suicides?
+ #### 13. Who (gender, nationality, age) comitted the highest number of suicides and when?
  ```SQL
-SELECT  s.sex, 
-	c.country, 
-	s.age_group, 
+SELECT  g.gender, 
 	y.year, 
-	SUM (s.suicides_no) AS total_suicides 
+	c.country, 
+	a.age_group,  
+        SUM (s.suicides_no) AS total_suicides 
 FROM suicide_rates s
 INNER JOIN countries c
 	ON s.country_id = c.country_id
 INNER JOIN years y
 	ON s.year_id = y.year_id
-GROUP BY s.sex, 
+INNER JOIN gender g
+	ON g.gender_id = s.gender_id
+INNER JOIN age_groups a
+	ON a.age_group_id = s.age_group_id
+GROUP BY g.gender,
+	 y.year, 
 	 c.country, 
-	 s.age_group, 
-	 y.year
+	 a.age_group 
 ORDER BY total_suicides DESC
 LIMIT 1;
 ```
 ![menagecountryyear](Queries_results/menagecountryyear.jpg)
 
-#### 18. When it comes to women who committed suicide, what was the year, country and age group  for those who comitted the highest number of suicides?
+#### 14. When it comes to women who committed suicide, what was the year, country and age group  for those who comitted the highest number of suicides?
 ```SQL
-SELECT s.sex, 
-       y.year, 
-       c.country, 
-       s.age_group,  
-       SUM (s.suicides_no) AS total_suicides 
+SELECT  g.gender, 
+	y.year, 
+	c.country, 
+	a.age_group,  
+	SUM (s.suicides_no) AS total_suicides 
 FROM suicide_rates s
 INNER JOIN countries c
 	ON s.country_id = c.country_id
 INNER JOIN years y
 	ON s.year_id = y.year_id
-WHERE s.sex = 'female'
-GROUP BY s.sex, 
+INNER JOIN gender g
+	ON g.gender_id = s.gender_id
+INNER JOIN age_groups a
+	ON a.age_group_id = s.age_group_id
+WHERE g.gender = 'female'
+GROUP BY g.gender,
 	 y.year, 
 	 c.country, 
-	 s.age_group 
+	 a.age_group 
 ORDER BY total_suicides DESC
 LIMIT 1;
 ```
