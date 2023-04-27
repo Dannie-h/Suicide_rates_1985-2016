@@ -315,82 +315,7 @@ HAVING SUM(s.suicides_no) = (
 							
 
 
--- 13.Men from which country had the highest number of suicides?
-SELECT g.gender,
-	   c.country, 
-	   SUM (s.suicides_no) AS total_suicides 
-FROM suicide_rates s
-INNER JOIN countries c
-		ON s.country_id = c.country_id
-INNER JOIN gender g
-		ON s.gender_id = g.gender_id
-WHERE g.gender = 'male'
-GROUP BY g.gender, 
-		 c.country
-ORDER BY total_suicides DESC
-LIMIT 1;
-
-
-
--- 14.Women from which country had the highest number of suicides?
-SELECT g.gender,
-	   c.country, 
-	   SUM (s.suicides_no) AS total_suicides 
-FROM suicide_rates s
-INNER JOIN countries c
-		ON s.country_id = c.country_id
-INNER JOIN gender g
-		ON s.gender_id = g.gender_id
-WHERE g.gender = 'female'
-GROUP BY g.gender, 
-		 c.country
-ORDER BY total_suicides DESC
-LIMIT 1;
-
-
-/* 15.When it comes to men who committed suicide, what was the age group and country for those who 
-comitted the highest number of suicides? */
-
-SELECT g.gender, 
-	   c.country, 
-	   a.age_group, 
-	   SUM (s.suicides_no) AS total_suicides 
-FROM suicide_rates s
-INNER JOIN countries c
-		ON s.country_id = c.country_id
-INNER JOIN gender g 
-	ON s.gender_id = g.gender_id
-INNER JOIN age_groups a
-	ON a.age_group_id = s.age_group_id
-WHERE g.gender = 'male'
-GROUP BY g.gender, 
-		 c.country, 
-		 a.age_group
-ORDER BY total_suicides DESC
-LIMIT 1;
-
-/* 16.When it comes to women who committed suicide, what was the age group and country for those who 
-comitted the highest number of suicides? */
-
-SELECT g.gender, 
-	   c.country, 
-	   a.age_group, 
-	   SUM (s.suicides_no) AS total_suicides 
-FROM suicide_rates s
-INNER JOIN countries c
-		ON s.country_id = c.country_id
-INNER JOIN gender g 
-	ON s.gender_id = g.gender_id
-INNER JOIN age_groups a
-	ON a.age_group_id = s.age_group_id
-WHERE g.gender = 'female'
-GROUP BY g.gender, 
-		 c.country, 
-		 a.age_group
-ORDER BY total_suicides DESC
-LIMIT 1;
-
--- 17.What gender from what age group from which country in what year comitted the highest number of suicides?
+-- 13.Who (gender, nationality, age) comitted the highest number of suicides and when?
 
 SELECT g.gender, 
 	   y.year, 
@@ -413,7 +338,7 @@ GROUP BY g.gender,
 ORDER BY total_suicides DESC
 LIMIT 1;
 
-/* 18.When it comes to women who committed suicide, what was the year, country and age group  for those who 
+/* 14.When it comes to women who committed suicide, what was the year, country and age group  for those who 
 comitted the highest number of suicides? */ 
 
 SELECT g.gender, 
