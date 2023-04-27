@@ -9,6 +9,19 @@ By analyzing suicide rates over time and identifying trends and patterns in the 
 ### Dataset: 
  The dataset for this project can be found on Kaggle (https://www.kaggle.com/datasets/russellyates88/suicide-rates-overview-1985-to-2016). The dataset contains information about suicide rates worldwide from 1985 to 2016. The dataset includes various attributes such as year, sex, age group, suicide rate, and population size.
  
+ The dataset includes the following attributes:
+   - year
+   - country
+   - sex
+   - age group
+   - suicides number
+   - population
+   - suicides per 100k
+   - country_year
+   - hdi for year
+   - gdp for year
+   - gdp per capita
+   - generation
  
  ### Project Overview: 
   In this project, I will be analyzing suicide rates from 1986 to 2016. The main goal of this project is to identify any patterns or trends in the data that may be useful for understanding the factors that contribute to suicide rates worldwide.
