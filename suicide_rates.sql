@@ -88,12 +88,12 @@ ALTER TABLE suicide_rates
 DROP COLUMN year;
 
 --Data exploration
--- How many suicides happened from 1985 to 2016?
+-- 1. How many suicides happened from 1985 to 2016?
 
 SELECT SUM(suicides_no) AS total_suicides
 	FROM suicide_rates;
 	
--- How many suicides/ gender?
+-- 2. How many suicides/ gender?
 
 SELECT sex, 
 	SUM(suicides_no) AS total_suicides_gender
@@ -101,7 +101,7 @@ FROM suicide_rates
 GROUP BY sex
 ORDER BY total_suicides_gender DESC;
 
--- Total suicides by age group
+-- 3. Total suicides by age group
 
 SELECT age_group, 
 	SUM(suicides_no) AS total_suicides_age 
@@ -109,7 +109,7 @@ FROM suicide_rates
 GROUP BY age_group
 ORDER BY total_suicides_age DESC;
 
--- Total suicides by gender and age group
+-- 4. Total suicides by gender and age group
 
 SELECT sex, age_group, 
 	SUM(suicides_no) AS total_suicides 
@@ -117,7 +117,7 @@ FROM suicide_rates
 GROUP BY sex, age_group
 ORDER BY total_suicides DESC;
 
--- Top 10 countries by suicides number
+-- 5. Top 10 countries by suicides number
 
 SELECT country, 
 	SUM(suicides_no) AS total_suicides_country 
@@ -128,7 +128,7 @@ GROUP BY country
 ORDER BY total_suicides_country DESC
 LIMIT 10;
 
--- What country/ies had the fewest suicides?	
+-- 6.What country/ies had the fewest suicides?	
 	
 SELECT c.country, 
 	SUM(s.suicides_no) AS total_suicides 
@@ -145,12 +145,12 @@ HAVING SUM(s.suicides_no) = (
 							 ) AS suicide_totals
 							);
 							
--- On average, how many suicides/100k pop happened during this period?
+-- 7.On average, how many suicides/100k pop happened during this period?
 
 SELECT ROUND(AVG(suicides_per_100k),2) AS avg_suicides_per_100k 
 FROM suicide_rates;
 
--- On average, how many suicides/100k pop happened during this period for each gender?
+-- 8.On average, how many suicides/100k pop happened during this period for each gender?
 
 SELECT sex, 
 	ROUND(AVG(suicides_per_100k),2) AS avg_suicides_per_100k 
@@ -158,7 +158,7 @@ FROM suicide_rates
 GROUP BY sex
 ORDER BY avg_suicides_per_100k DESC;
 
--- 	On average, which countries had the highest number of suicides/100k pop?
+-- 	9.On average, which countries had the highest number of suicides/100k pop?
 
 SELECT c.country, 
 		ROUND(AVG(s.suicides_per_100k),2) AS avg_suicides_per_100k
@@ -169,7 +169,7 @@ GROUP BY c.country
 ORDER BY avg_suicides_per_100k DESC
 LIMIT 10;
 
--- Which years had the greatest number of suicides? top 10
+-- 10.Which years had the greatest number of suicides? top 10
 SELECT y.year, 
 		SUM(s.suicides_no) AS total_suicides 
 FROM suicide_rates s
