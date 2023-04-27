@@ -179,7 +179,7 @@ GROUP BY y.year
 ORDER BY total_suicides DESC
 LIMIT 10;
 
--- Which had the fewest?
+-- 11.Which had the fewest?
 
 SELECT y.year, 
 		SUM(s.suicides_no) AS min_total_suicides 
@@ -196,7 +196,7 @@ HAVING SUM(s.suicides_no) = (
 							) AS suicides_total
 							); 
 
--- which country in what year had the greatest number of suicides?
+-- 12. which country in what year had the greatest number of suicides?
 
 SELECT c.country, 
 		y.year, 
@@ -206,7 +206,8 @@ INNER JOIN suicide_rates s
 		ON c.country_id =  s.country_id
 INNER JOIN years y
 		ON s.year_id = y.year_id
-GROUP BY c.country, y.year
+GROUP BY c.country, 
+		 y.year
 ORDER BY total_suicides DESC
 LIMIT 1;
 
@@ -218,7 +219,8 @@ INNER JOIN suicide_rates s
 		ON c.country_id =  s.country_id
 INNER JOIN years y
 		ON s.year_id = y.year_id
-GROUP BY c.country, y.year
+GROUP BY c.country, 
+		 y.year
 HAVING SUM(s.suicides_no) = (
 							SELECT MAX(suicides)
 							FROM (
@@ -227,71 +229,109 @@ HAVING SUM(s.suicides_no) = (
 								GROUP BY country_id, year_id
 							) AS suicide_total
 							);
+							
 
 
---Men from which country had the highest number of suicides?
-SELECT s.sex, c.country, SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
+-- 13.Men from which country had the highest number of suicides?
+SELECT s.sex,
+	   c.country, 
+	   SUM (s.suicides_no) AS total_suicides 
+FROM suicide_rates s
 INNER JOIN countries c
-ON s.country_id = c.country_id
+		ON s.country_id = c.country_id
 WHERE s.sex = 'male'
-GROUP BY s.sex, c.country, s.age_group
+GROUP BY s.sex, 
+		 c.country, 
+		 s.age_group
 ORDER BY total_suicides DESC
 LIMIT 1;
 
 
---Women from which country had the highest number of suicides?
-SELECT s.sex, c.country, SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
+-- 14.Women from which country had the highest number of suicides?
+SELECT s.sex, 
+	   c.country, 
+	   SUM (s.suicides_no) AS total_suicides 
+FROM suicide_rates s
 INNER JOIN countries c
-ON s.country_id = c.country_id
+		ON s.country_id = c.country_id
 WHERE s.sex = 'female'
-GROUP BY s.sex, c.country, s.age_group
+GROUP BY s.sex, 	
+		 c.country, 
+		 s.age_group
 ORDER BY total_suicides DESC
 LIMIT 1;
 
 
-/*When it comes to men who committed suicide, what was the age group and country for those who 
+/* 15.When it comes to men who committed suicide, what was the age group and country for those who 
 comitted the highest number of suicides? */
 
-SELECT s.sex, c.country, s.age_group, SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
+SELECT s.sex, 
+	   c.country, 
+	   s.age_group, 
+	   SUM (s.suicides_no) AS total_suicides 
+FROM suicide_rates s
 INNER JOIN countries c
-ON s.country_id = c.country_id
+		ON s.country_id = c.country_id
 WHERE s.sex = 'male'
-GROUP BY s.sex, c.country, s.age_group
+GROUP BY s.sex, 
+		 c.country, 
+		 s.age_group
 ORDER BY total_suicides DESC
 LIMIT 1;
 
-/*When it comes to women who committed suicide, what was the age group and country for those who 
+/* 16.When it comes to women who committed suicide, what was the age group and country for those who 
 comitted the highest number of suicides? */
 
-SELECT s.sex, c.country, s.age_group, SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
+SELECT s.sex, 
+	   c.country, 
+	   s.age_group, 
+	   SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
 INNER JOIN countries c
-ON s.country_id = c.country_id
+		ON s.country_id = c.country_id
 WHERE s.sex = 'female'
-GROUP BY s.sex, c.country, s.age_group
+GROUP BY s.sex, 
+		 c.country, 
+		 s.age_group
 ORDER BY total_suicides DESC
 LIMIT 1;
 
-----what gender from what age group from which country in what year
+-- 17.What gender from what age group from which country in what year comitted the highest number of suicides?
 
-SELECT s.sex, c.country, s.age_group, y.year, SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
+SELECT s.sex, 
+	   c.country, 
+	   s.age_group, 
+	   y.year, 
+	   SUM (s.suicides_no) AS total_suicides 
+FROM suicide_rates s
 INNER JOIN countries c
-ON s.country_id = c.country_id
+		ON s.country_id = c.country_id
 INNER JOIN years y
-ON s.year_id = y.year_id
-GROUP BY s.sex, c.country, s.age_group, y.year
+		ON s.year_id = y.year_id
+GROUP BY s.sex, 
+		 c.country, 
+		 s.age_group, 
+		 y.year
 ORDER BY total_suicides DESC
 LIMIT 1;
 
-/*When it comes to women who committed suicide, what was the year, country and age group  for those who 
+/* 18.When it comes to women who committed suicide, what was the year, country and age group  for those who 
 comitted the highest number of suicides? */ 
 
-SELECT s.sex, y.year, c.country, s.age_group,  SUM (s.suicides_no) AS total_suicides FROM suicide_rates s
+SELECT s.sex, 
+	   y.year, 
+	   c.country, 
+	   s.age_group,  
+	   SUM (s.suicides_no) AS total_suicides 
+FROM suicide_rates s
 INNER JOIN countries c
-ON s.country_id = c.country_id
+		ON s.country_id = c.country_id
 INNER JOIN years y
-ON s.year_id = y.year_id
+		ON s.year_id = y.year_id
 WHERE s.sex = 'female'
-GROUP BY s.sex, y.year, c.country, s.age_group 
+GROUP BY s.sex,
+		 y.year, 
+		 c.country, 
+		 s.age_group 
 ORDER BY total_suicides DESC
 LIMIT 1;
 
