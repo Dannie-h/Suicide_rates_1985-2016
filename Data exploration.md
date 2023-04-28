@@ -46,7 +46,7 @@ INNER JOIN age_groups a
 GROUP BY g.gender, a.age_group
 ORDER BY total_suicides DESC;
 ```
-![totalsuicidesgenderage](Queries_results/totalsuicidesgenderage.jpg)
+![totalgenderage](Queries_results/totalgenderage.jpg)
 
 #### 5. Top 10 countries by suicides number
   
