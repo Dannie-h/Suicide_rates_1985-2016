@@ -35,16 +35,28 @@ By analyzing suicide rates over time and identifying trends and patterns in the 
   
   #### 2. Data cleaning and preparation
   - ensuring data constistency;
-  - hadling NULL values;
-  - removing redundant data;
-  - data normalization.
-
-  #### 3. Data exploration (PostgreSQL)
+  - hadling NULL values by replacing missing values with zero;
+ 
+ #### 3. Create a relational database
+ Having in mind that I will use Power Bi to create a dashboard, I created a relational database:
+  - I created new tables:
+      - countries (with country_id as a primary key, and country columns)
+      - years (with year_id as a primary key, and year columns)
+      - age_groups (with age_group_id as primary key, and age_group columns)
+      - gender (with gender_id as pimary key, and gender columns)
+      - economic_indicators (country_id as foreign key that links to the countries table, year_id as foreign key that links to the years table, hdi, gdp, gdp_per_capita columns)
+    
+  - Then, I connected the suicide_rates table with the new tables: countries (country_id as foreign key), years (year_id as foreign key), age_groups (age_group_id as foreign key), gender (gender_id as foreign key).
+  - Finally, I removed the country, age_group, gender, hdi_for_year, gdp_for_year_gdp_per_capita columns from the suicide_rates table.
+  - I also removed the country_year and generation columns from the suicide_rates table as I will not be using them.
+  
+  #### 4. Data exploration (PostgreSQL)
   - extracting relevant data;
-  - performing data analysis to identify trends and patterns in the data.
+  - performing data analysis to identify trends and patterns in the data
+  - I was particularly interested in the highest number of suicides per age group, country, gender and the year they took place. This was a good opportunity to practice JOINS and Subqueries
 
 
-  #### 4. Data visualization
+  #### 5. Data visualization
  
 
 
