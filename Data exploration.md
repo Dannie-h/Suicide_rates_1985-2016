@@ -152,15 +152,15 @@ GROUP BY y.year,
 HAVING SUM(s.suicides_no) = (
 			SELECT MAX(suicides) 
 			FROM (
-				SELECT  year, 
-					SUM(suicides_no) AS suicides
-				FROM suicide_rates
-				INNER JOIN years
-					ON years.year_id = suicide_rates.year_id
-				WHERE year = 1999
-				GROUP BY year, 
-					 gender_id, 
-					 age_group_id) 
+				SELECT  yr.year, 
+					SUM(sr.suicides_no) AS suicides
+				FROM suicide_rates sr
+				INNER JOIN years yr
+					ON yr.year_id = sr.year_id
+				WHERE yr.year = 1999
+				GROUP BY yr.year, 
+					 sr.gender_id, 
+					 sr.age_group_id) 
 				AS suicides_total
 				);
 ```
