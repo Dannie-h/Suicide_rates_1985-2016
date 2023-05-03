@@ -130,8 +130,43 @@ LIMIT 10;
 ```
 
 ![top10years](Queries_results/top10years.jpg)
-			    
-#### 11. Which year had the fewest suicides?
+
+#### 11. 1999 had the highest number of suicides. What was the gender and age group with the highest number of suicides in 1999?
+
+```SQL
+SELECT  y.year,
+	g.gender,
+	a.age_group,
+	SUM(s.suicides_no) AS total_suicides
+FROM suicide_rates s
+INNER JOIN years y
+	ON y.year_id = s.year_id
+INNER JOIN gender g
+	ON g.gender_id = s.gender_id
+INNER JOIN age_groups a
+	ON a.age_group_id = s.age_group_id
+WHERE y.year = 1999
+GROUP BY y.year,
+	 g.gender,
+	 a.age_group
+HAVING SUM(s.suicides_no) = (
+			SELECT MAX(suicides) 
+			FROM (
+				SELECT  year, 
+					SUM(suicides_no) AS suicides
+				FROM suicide_rates
+				INNER JOIN years
+					ON years.year_id = suicide_rates.year_id
+				WHERE year = 1999
+				GROUP BY year, 
+					 gender_id, 
+					 age_group_id) 
+				AS suicides_total
+				);
+```
+![1999](Queries_results/1999.jpg)
+
+#### 12. Which year had the fewest suicides?
 
 ```SQL
 SELECT y.year, 
@@ -151,7 +186,7 @@ HAVING SUM(s.suicides_no) = (
 ```
 ![lowyear](Queries_results/lowyear.jpg)
 
-#### 12. Which country in what year had the greatest number of suicides?
+#### 13. Which country in what year had the greatest number of suicides?
 
 ```SQL
 SELECT c.country, 
@@ -175,7 +210,7 @@ HAVING SUM(s.suicides_no) = (
 ![topcountryyear](Queries_results/topcountryyear.jpg)
 
  
- #### 13. Who (gender, nationality, age) comitted the highest number of suicides and when?
+ #### 14. Who (gender, nationality, age) comitted the highest number of suicides and when?
  ```SQL
 SELECT  g.gender, 
 	y.year, 
@@ -200,7 +235,7 @@ LIMIT 1;
 ```
 ![menagecountryyear](Queries_results/menagecountryyear.jpg)
 
-#### 14. When it comes to women who committed suicide, what was the year, country and age group  for those who comitted the highest number of suicides?
+#### 15. When it comes to women who committed suicide, what was the year, country and age group  for those who comitted the highest number of suicides?
 ```SQL
 SELECT  g.gender, 
 	y.year, 
