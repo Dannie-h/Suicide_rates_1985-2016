@@ -7,7 +7,7 @@ The impact of suicide is not limited to the individual who dies by suicide, but 
 By analyzing suicide rates over time and identifying trends and patterns in the data, we can gain a better understanding of the factors that contribute to suicide and develop targeted prevention strategies to reduce the incidence of suicide. This project aims to contribute to this important goal by exploring suicide rates worldwide from 1985 to 2016. The insights gained from this analysis could inform the development of policies and interventions aimed at reducing the prevalence of suicide and improving mental health outcomes for individuals and communities.
 
 ### Dataset: 
- The dataset for this project can be found on Kaggle (https://www.kaggle.com/datasets/russellyates88/suicide-rates-overview-1985-to-2016). The dataset contains information about suicide rates worldwide from 1985 to 2016. The dataset includes various attributes such as year, sex, age group, suicide rate, and population size.
+ The dataset for this project can be found on Kaggle (https://www.kaggle.com/datasets/russellyates88/suicide-rates-overview-1985-to-2016). The dataset contains information about suicide rates worldwide from 1985 to 2016. 
  
  The dataset includes the following attributes:
    - year
@@ -24,7 +24,7 @@ By analyzing suicide rates over time and identifying trends and patterns in the 
    - generation
  
  ### Project Overview: 
-  In this project, I will be analyzing suicide rates from 1986 to 2016. The main goal of this project is to identify any patterns or trends in the data that may be useful for understanding the factors that contribute to suicide rates worldwide.
+  In this project, I analyzed suicide rates from 1986 to 2016. The main goal of this project was to identify any patterns or trends in the data that may be useful for understanding the factors that contribute to suicide rates worldwide.
   
   ### Tools:
   SQL
@@ -57,6 +57,25 @@ By analyzing suicide rates over time and identifying trends and patterns in the 
 
 
   #### 5. Data visualization
+ 
+   
+   ![suicide_rates](suicide_rates.gif)
+   
+  Key insights: 
+  
+ -	Men committed three times more suicides than women.
+ -	More than one third of deaths reported were people between 35 and 54.
+ -	There was an ascending trend in the number of suicides during the 31-year period. This was the case for every age-group.
+ -	1999 recorder the highest number of deaths by suicide (256119), of which 78076 were middle aged men.
+ -	When taken by region, East European countries appear to have a higher rate of suicide per 100k population. 
+ -	The situation changes when we take gender into consideration, men from Lithuania had the highest suicide rate while when it comes to women, Sri Lanka comes in first, followed by South Korea and Hungary.
+ -	On the other end of the spectrum, Dominica and Saint Kitts and Nevis reported no suicides during the time period.
+ -	Despite having the highest GDP per capita, Luxembourg had a suicide rate that was above the average.
+ -	There seems to be a weak positive correlation between GDP per capita and average suicide rates per 100k people. However, it is important to note that this relationship may be influenced by other factors that are not captured by this analysis.
+ 
+ 
+
+   
  
 
 
