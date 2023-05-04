@@ -101,7 +101,38 @@ GROUP BY y.year
 ORDER BY total_suicides DESC
 LIMIT 10;
 
--- 11.Which had the fewest?
+-- 11. 1999 had the highest number of suicides. What was the gender and age group with the highest number of suicides in 1999?
+SELECT  y.year,
+		g.gender,
+		a.age_group,
+		SUM(s.suicides_no) AS total_suicides
+FROM suicide_rates s
+INNER JOIN years y
+		ON y.year_id = s.year_id
+INNER JOIN gender g
+		ON g.gender_id = s.gender_id
+INNER JOIN age_groups a
+		ON a.age_group_id = s.age_group_id
+WHERE y.year = 1999
+GROUP BY y.year,
+		 g.gender,
+		 a.age_group
+HAVING SUM(s.suicides_no) = (
+							SELECT MAX(suicides) 
+							FROM (
+								SELECT  yr.year,
+										SUM(sr.suicides_no) AS suicides
+								FROM suicide_rates sr
+								INNER JOIN years yr
+										ON yr.year_id = sr.year_id
+								WHERE yr.year = 1999
+								GROUP BY yr.year, 
+										 sr.gender_id, 
+										 sr.age_group_id
+									) AS suicides_total
+								);
+
+-- 12.Which year had the fewest?
 
 SELECT y.year, 
 		SUM(s.suicides_no) AS min_total_suicides 
@@ -118,7 +149,7 @@ HAVING SUM(s.suicides_no) = (
 							) AS suicides_total
 							); 
 
--- 12. which country in what year had the greatest number of suicides?
+-- 13. which country in what year had the greatest number of suicides?
 
 SELECT c.country, 
 		y.year, 
@@ -154,7 +185,7 @@ HAVING SUM(s.suicides_no) = (
 							
 
 
--- 13.Who (gender, nationality, age) comitted the highest number of suicides and when?
+-- 14.Who (gender, nationality, age) comitted the highest number of suicides and when?
 
 SELECT g.gender, 
 	   y.year, 
@@ -177,7 +208,7 @@ GROUP BY g.gender,
 ORDER BY total_suicides DESC
 LIMIT 1;
 
-/* 14.When it comes to women who committed suicide, what was the year, country and age group  for those who 
+/* 15.When it comes to women who committed suicide, what was the year, country and age group  for those who 
 comitted the highest number of suicides? */ 
 
 SELECT g.gender, 
@@ -201,3 +232,5 @@ GROUP BY g.gender,
 		 a.age_group 
 ORDER BY total_suicides DESC
 LIMIT 1;
+
+
