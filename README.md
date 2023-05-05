@@ -27,7 +27,8 @@ By analyzing suicide rates over time and identifying trends and patterns in the 
   In this project, I analyzed suicide rates from 1986 to 2016. The main goal of this project was to identify any patterns or trends in the data that may be useful for understanding the factors that contribute to suicide rates worldwide.
   
   ### Tools:
-  SQL
+  PostgreSQL
+  
   Power BI
   
   ### Project Steps:
